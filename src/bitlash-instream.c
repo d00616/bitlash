@@ -37,6 +37,10 @@
 
 #if defined(SDFILE)
 
+#ifdef RIOT_BUILD
+#error "SDFILE is not working with RIOT OS at the moment"
+#endif
+
 #define O_READ 0x01		// from SdFile.h
 
 // Trampolines for the SD library

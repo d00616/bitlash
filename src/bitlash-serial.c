@@ -279,7 +279,7 @@ void beginSoftSerial(unsigned long baud) {
 #endif // SOFTWARE_SERIAL_RX
 
 
-#if (defined(ARDUINO_BUILD) && (ARDUINO_VERSION >= 12)) || defined(AVROPENDOUS_BUILD) || defined(UNIX_BUILD)
+#if (defined(ARDUINO_BUILD) && (ARDUINO_VERSION >= 12)) || defined(AVROPENDOUS_BUILD) || defined(UNIX_BUILD) || defined(RIOT_BUILD)
 // From Arduino 0011/wiring_serial.c
 // These apparently were removed from wiring_serial.c in 0012
 
@@ -300,7 +300,7 @@ void printIntegerInBase(unumvar n, uint8_t base, numvar width, byte pad) {
 		while (width-- > 0) spb(pad);
 	}
 
-#ifdef UNIX_BUILD
+#if defined(UNIX_BUILD) || defined(RIOT_BUILD)
 	while (--ptr >= buf) {
 		if (*ptr < 10) spb(*ptr + '0');
 		else spb(*ptr - 10 + 'A');

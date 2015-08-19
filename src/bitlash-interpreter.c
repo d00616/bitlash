@@ -236,7 +236,7 @@ parsepoint fetchmark;
 numvar getstatement(void) {
 numvar retval = 0;
 
-#if !defined(TINY_BUILD) && !defined(UNIX_BUILD)
+#if !defined(TINY_BUILD) && !defined(UNIX_BUILD) && !defined(RIOT_BUILD)
 	chkbreak();
 #endif
 

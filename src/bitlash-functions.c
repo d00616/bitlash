@@ -88,6 +88,8 @@ numvar func_beep(void) { 		// unumvar pin, unumvar frequency, unumvar duration)
 numvar func_free(void) {
 #if defined(UNIX_BUILD)
 	return 1000L;
+#if defined(RIOT_BUILD)
+	return 1000L;
 #elif defined(ARM_BUILD)
 	return 1000L;
 #else
@@ -487,7 +489,7 @@ bitlash_function fp;
 	else
 #endif
 	// built-in function
-#ifdef UNIX_BUILD
+#if defined(UNIX_BUILD) || defined(RIOT_BUILD)
 	fp = function_table[entry];
 #else
 	fp = (bitlash_function) pgm_read_word(&function_table[entry]);

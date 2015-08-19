@@ -36,6 +36,7 @@
 #ifndef _BITLASH_H
 #define _BITLASH_H
 
+#if not defined(RIOT_BUILD)
 #if defined(__x86_64__) || defined(__i386__)
 #define UNIX_BUILD 1
 #elif defined(__SAM3X8E__)
@@ -47,6 +48,7 @@
 #define ARM_BUILD  4 //support Energia.nu - Stellaris Launchpad / Tiva C Series  
 #else
 #define AVR_BUILD 1
+#endif
 #endif
 
 
@@ -64,6 +66,20 @@
 
 // Unix includes
 #if defined(UNIX_BUILD)
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ctype.h"
+#include "setjmp.h"
+#include <time.h>
+#include <sys/types.h>
+#include <errno.h>
+//#include <unistd.h>
+#endif
+
+// RIOT OS includes
+#if defined(RIOT_BUILD)
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -410,6 +426,36 @@ unsigned long millis(void);
 
 #endif	// defined unix_build
 
+///////////////////////////////////////////////////////
+//
+//	RIOT OS build options
+//
+#ifdef RIOT_BUILD
+#define MINIMUM_FREE_RAM 200
+#define NUMPINS 32
+#undef HARDWARE_SERIAL_TX
+#undef SOFTWARE_SERIAL_TX
+#define beginSerial(x)
+
+#define E2END 2047
+
+#define uint8_t unsigned char
+#define uint32_t unsigned long int
+#define prog_char char
+#define prog_uchar unsigned char
+#define strncpy_P strncpy
+#define strcmp_P strcmp
+#define strlen_P strlen
+
+#define PROGMEM
+#define OUTPUT 1
+
+#define pgm_read_byte(addr) (*(char*) (addr))
+#define pgm_read_word(addr) (*(int *) (addr))
+
+unsigned long millis(void);
+
+#endif	// defined riot_build
 
 ////////////////////
 //
@@ -434,7 +480,7 @@ unsigned long millis(void);
 
 
 // numvar is 32 bits on Arduino and 16 bits elsewhere
-#if (defined(ARDUINO_BUILD) || defined(UNIX_BUILD)) && !defined(TINY_BUILD)
+#if (defined(ARDUINO_BUILD) || defined(UNIX_BUILD) || defined(RIOT_BUILD)) && !defined(TINY_BUILD)
 typedef long int numvar;
 typedef unsigned long int unumvar;
 #else

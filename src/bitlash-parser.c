@@ -190,7 +190,7 @@ void tb(void) {		// print a mini-trace
 ///
 ///		Expression evaluation stack
 ///
-#if defined(MEGA) || defined(UNIX_BUILD) || defined(ARM_BUILD)
+#if defined(MEGA) || defined(UNIX_BUILD) || defined(ARM_BUILD) || defined(RIOT_BUILD)
 #define VSTACKLEN 256
 #else
 #define VSTACKLEN 64

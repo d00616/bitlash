@@ -34,16 +34,24 @@
 
 
 ***/
+#ifndef RIOT_BUILD
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
 #else
   #include "WProgram.h"
+#endif
 #endif
 
 #ifdef UNIX_BUILD
 #include "src/bitlash-unix.c"
 //#else
 //#include "src/bitlash-arduino.c"
+#endif
+
+/* Include mapping to RIOT
+ * RIOT_BUILD is defined in pkg Makefile */
+#ifdef RIOT_BUILD
+#include "src/bitlash-riot.c"
 #endif
 
 #include "src/bitlash-cmdline.c"
