@@ -156,7 +156,10 @@ void eraseentry(char *id) {
 }
 
 // parsestring helpers
-void countByte(char c) { expval++; }
+void countByte(char c) { 
+	if (c==0) { ; }
+	expval++;
+}
 void saveByte(char c) { eewrite(expval++, c); }
 
 

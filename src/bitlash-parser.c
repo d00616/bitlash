@@ -111,7 +111,7 @@ tokenhandler tokenhandlers[TOKENTYPES] = {
 //	The chartypes array contains a type code for each ascii character in the range 0-127.
 //	The code corresponding to a character specifies which of the token handlers above will
 //	be called when the character is seen as the initial character in a symbol.
-#define np(a,b) ((a<<4)+b)
+#define np(a,b) (prog_char)((a<<4)+b)
 const prog_char chartypes[] PROGMEM = {    											//    0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
 	np(3,4), np(4,4),  np(4,4), np(4,4),  np(4,0), np(0,4),  np(4,0), np(4,4),	//0  NUL SOH STX ETX EOT ENQ ACK BEL BS  HT  LF  VT  FF  CR  SO  SI
 	np(4,4), np(4,4),  np(4,4), np(4,4),  np(4,4), np(4,4),  np(4,4), np(4,4),	//1  DLE DC1 DC2 DC3 DC4 NAK SYN ETB CAN EM  SUB ESC FS  GS  RS  US

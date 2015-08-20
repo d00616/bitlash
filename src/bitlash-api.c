@@ -54,6 +54,8 @@ void initBitlash(unsigned long baud) {
 
 #if defined(TINY_BUILD)
 	beginSerial(9600);
+#elif defined(RIOT_BUILD)
+	if (baud==0) { ; }
 #else
 	beginSerial(baud);
 #endif

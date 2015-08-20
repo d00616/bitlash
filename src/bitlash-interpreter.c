@@ -96,11 +96,15 @@ void cmd_boot(void) {
   while(1);
 }
 #endif
+#elif defined(RIOT_BUILD)
+void cmd_boot(void) { riot_boot(); }
 #else
 void cmd_boot(void) {oops('boot');}
 #endif
 
-void skipbyte(char c) {;}
+void skipbyte(char c) {
+	if (c==0) { ; }
+}
 
 // Skip a statement without executing it
 //
@@ -343,7 +347,8 @@ numvar retval = 0;
 	else if (sym == s_peep) { getsym(); cmd_peep(); }
 	else if (sym == s_help) { getsym(); cmd_help(); }
 #endif
-	else if (sym == s_print) { getsym(); cmd_print(); }
+	else if (sym == s_print) { getsym(); //cmd_print(); FIXME
+		}
 	else if (sym == s_semi)	{ ; }	// ;)
 
 #ifdef HEX_UPLOAD

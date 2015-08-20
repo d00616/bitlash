@@ -90,6 +90,7 @@
 #include <sys/types.h>
 #include <errno.h>
 //#include <unistd.h>
+#include <inttypes.h>
 #endif
 
 #ifndef byte
@@ -439,8 +440,6 @@ unsigned long millis(void);
 
 #define E2END 2047
 
-#define uint8_t unsigned char
-#define uint32_t unsigned long int
 #define prog_char char
 #define prog_uchar unsigned char
 #define strncpy_P strncpy
@@ -766,7 +765,7 @@ extern numvar symval;		// value of current numeric expression
 
 #define USE_GPIORS defined(AVR_BUILD)
 
-#ifndef GPIOR0 || GPIOR1
+#if !defined(GPIOR0) || !defined(GPIOR1)
 	#undef USE_GPIORS
 #endif
 #if (defined USE_GPIORS)

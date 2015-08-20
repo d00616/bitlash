@@ -37,10 +37,6 @@
 
 #if defined(SDFILE)
 
-#ifdef RIOT_BUILD
-#error "SDFILE is not working with RIOT OS at the moment"
-#endif
-
 #define O_READ 0x01		// from SdFile.h
 
 // Trampolines for the SD library
@@ -51,11 +47,14 @@ byte scriptread(void);
 byte scriptwrite(char *filename, char *contents, byte append);
 void scriptwritebyte(byte b);
 #elif !defined(UNIX_BUILD)
-byte scriptfileexists(char *scriptname) { return 0; }
+byte scriptfileexists(char *scriptname) {
+	if (scriptname != NULL) { ; }
+	return 0; 
+}
 #endif
 
 // masks for stashing the pointer type in the high nibble
-#if defined(UNIX_BUILD) && defined(__x86_64__)
+#if (defined(UNIX_BUILD) || defined(RIOT_BUILD)) && defined(__x86_64__)
 #define MARK_SHIFT 60
 #define ADDR_MASK 0xfffffffffffffffL
 #else
@@ -208,6 +207,8 @@ void initparsepoint(byte scripttype, numvar scriptaddress, char *scriptname) {
 		if (scriptname) { spb(' '); sp(scriptname); }
 		speol();
 	}
+#else
+	if (scriptname == NULL) { ; }
 #endif
 
 	fetchtype = scripttype;
