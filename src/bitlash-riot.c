@@ -25,9 +25,11 @@
 	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 	OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "bitlash.h"
-
 #ifdef RIOT_BUILD
+
+#include "bitlash.h"
+#include "hwtimer.h"
+#include "timex.h"
 
 /*
 
@@ -173,21 +175,11 @@ int pulseIn(int pin, int mode, int duration) {
 // stubs for the time functions
 //
 void delay(unsigned long ms) {
-//	unsigned long start = millis();
-//	while (millis() - start < ms) { ; }
-	struct timespec delay_time;
-	long seconds = ms / 1000L;
-	delay_time.tv_sec = seconds;
-	delay_time.tv_nsec = (ms - (seconds * 1000L)) * 1000000L;
-	while (nanosleep(&delay_time, &delay_time) == -1) continue;
+	hwtimer_wait(HWTIMER_TICKS(ms*MS_IN_USEC));
 }
 
 void delayMicroseconds(unsigned int us) {
-	struct timespec delay_time;
-	long seconds = us / 1000000L;
-	delay_time.tv_sec = seconds;
-	delay_time.tv_nsec = (us - (seconds * 1000000L)) * 1000L;
-	while (nanosleep(&delay_time, &delay_time) == -1) continue;
+	hwtimer_wait(HWTIMER_TICKS(us));
 }
 
 // fake eeprom
@@ -220,14 +212,15 @@ numvar func_save(void) {
 
 
 // background function thread
-#include <pthread.h>
+/*#include <pthread.h>
 pthread_mutex_t executing;
 pthread_t background_thread;
 struct timespec wait_time;
-
+*/
 void *BackgroundMacroThread(void *threadid) {
 	if (threadid==0) { ; }
 /*
+ * 	TODO
 	for (;;) {
 		pthread_mutex_lock(&executing);
 		runBackgroundTasks();
@@ -268,9 +261,8 @@ void inthandler(int signal) {
 	break_received = 1;
 }
 
-
+#ifdef MAINMAINMAIN
 int main () {
-#if 0
 	//FILE *shell = popen("echo ~", "r");
 	//if (!shell) {;}
 	//int got = fread(&bitlash_directory, 1, PATH_LEN, shell);
@@ -323,7 +315,6 @@ int main () {
 		doCommand(lbuf);
 		initlbuf();
 	}
-#endif
 #if 0
 	unsigned long next_key_time = 0L;
 	unsigned long next_task_time = 0L;
@@ -345,4 +336,5 @@ int main () {
 #endif
 
 }
+#endif
 #endif

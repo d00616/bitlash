@@ -89,8 +89,12 @@
 #include <time.h>
 #include <sys/types.h>
 #include <errno.h>
-//#include <unistd.h>
 #include <inttypes.h>
+
+#ifndef MODULE_SHELL
+	#error "Please activate RIOT SHELL module."
+#endif
+
 #endif
 
 #ifndef byte
