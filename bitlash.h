@@ -37,6 +37,10 @@
 	#include "Arduino.h"
 	#define prog_char char PROGMEM
 	#define prog_uchar unsigned char PROGMEM
+#elif defined(RIOT_VERSION)
+	#ifndef byte
+	#define byte uint8_t
+	#endif
 #else
 	#include "WProgram.h"
 #endif
